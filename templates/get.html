@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Page Title</title>
+    </head>
+    <body>
+        <p>Hello there!</p>
+
+        {% if name %}
+        <p>Your name is <strong>{{ name }}</strong>.</p>
+        {% else %}
+        <form method="get" action="/name">
+            What's your name?: <input type="text" name="name" />
+            <input type="submit">
+        </form>
+        {% endif %}
+    </body>
+</html>

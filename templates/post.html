@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Post Example</title>
+    </head>
+    <body>
+        <h1>Names</h1>
+        {% for name in names %}
+            <p>{{name.name}}</p>
+        {% endfor %}
+        <hr />
+        <p>Add a name:</p>
+        <form method="post" action="/post">
+            Name: <input type="text" name="name">
+            <input type="submit">
+        </form>
+    </body>
+</html>
