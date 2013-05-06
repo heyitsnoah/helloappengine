@@ -20,28 +20,40 @@ from google.appengine.ext.webapp import template
 from model import Name
 
 class PostHandler(webapp2.RequestHandler):
+    # GET and POST are HTTP commands. 
+    # They define whether we're just retrieving info or adding to database.
     def get(self):
+        # Here we call the database. We are pulling all names out.
         names = Name.all()
         template_values = {"names":names} 
         path = os.path.join(os.path.dirname(__file__), 'templates/post.html')
         self.response.out.write(template.render(path, template_values))
     def post(self):
+        # This grabs the post value called name that was passed.
         name = self.request.get('name')
         if name:
+            # Here we create a new Name object in the database.
+            # We assign the name field with the new name that was passed on in the POST.
             new_name = Name(name=name)
+            # And here we save it to the database.
             new_name.put()
+        # Finally, we redirect back to the original page (GET).
         self.redirect('/post')
 
 class GetHandler(webapp2.RequestHandler):
     def get(self):
+        # Check the query string to see if there is a variable called 'name'.
         name = self.request.get('name')
+        # Pass name value to template.
         template_values = {"name":name}
         path = os.path.join(os.path.dirname(__file__), 'templates/get.html')
         self.response.out.write(template.render(path, template_values))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('<p>Hello world!</p>')
+        self.response.write('<p><a href="/get">GET!</a></p>')
+        self.response.write('<p><a href="/post">POST!</a></p>')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
