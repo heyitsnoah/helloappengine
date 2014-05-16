@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Page Title</title>
+    </head>
+    <body>
+        <p>Hello there!</p>
+        <p>Gold costs ${{gold}} per pound</p>
+
+        {% if dollars %}
+        <p>You can buy <strong>{{ pounds_of_gold }}</strong> pounds of gold with ${{dollars}}.</p>
+        {% else %}
+        <form method="get" action="/math">
+            How much money do you have to buy gold? <input type="text" name="dollars" />
+            <input type="submit">
+        </form>
+        {% endif %}
+    </body>
+</html>

@@ -16,6 +16,8 @@
 #
 import webapp2
 import os
+import logging
+
 from google.appengine.ext.webapp import template
 from model import Name
 
@@ -49,14 +51,28 @@ class GetHandler(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'templates/get.html')
         self.response.out.write(template.render(path, template_values))
 
+class MathHandler(webapp2.RequestHandler):
+    def get(self):
+        gold = 1294
+        if self.request.get('dollars'):
+            dollars = int(self.request.get('dollars'))
+            pounds_of_gold = dollars / gold
+            template_values = {"dollars":dollars,"pounds_of_gold":pounds_of_gold,"gold":gold}
+        else:
+            template_values = {"gold":gold}
+        path = os.path.join(os.path.dirname(__file__), 'templates/math.html')
+        self.response.out.write(template.render(path, template_values)) 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('<p>Hello world!</p>')
         self.response.write('<p><a href="/get">GET!</a></p>')
         self.response.write('<p><a href="/post">POST!</a></p>')
+        self.response.write('<p><a href="/math">MATH!</a></p>')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/get',GetHandler),
-    ('/post',PostHandler)
+    ('/post',PostHandler),
+    ('/math',MathHandler)
 ], debug=True)
